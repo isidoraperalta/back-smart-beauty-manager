@@ -1,0 +1,554 @@
+{
+  "info": {
+    "_postman_id": "e9cdfec8-f9f3-4b00-a75f-1e2d2f5266b4",
+    "name": "back-smart-beauty-manager",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24972309"
+  },
+  "item": [
+    {
+      "name": "clientes",
+      "item": [
+        {
+          "name": "clientes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/clientes",
+              "host": ["{{url_base}}"],
+              "path": ["clientes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clientes/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"Response has nombre\", () => pm.expect(pm.response.json()).to.have.property(\"nombre\"));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/clientes/1",
+              "host": ["{{url_base}}"],
+              "path": ["clientes", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clientes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.test(\"Status 201 Created\", () => pm.response.to.have.status(201));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"nombre matches request\", () => pm.expect(pm.response.json().nombre).to.eql(JSON.parse(pm.request.body.raw).nombre));",
+                  "} else if (pm.response.code === 400) {",
+                  "  pm.test(\"Status 400 Bad Request (validación/único)\", () => pm.response.to.have.status(400));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Ana López\",\n    \"email\": \"ana.lopez@email.com\",\n    \"telefono\": \"3001234567\",\n    \"direccion\": \"Calle 123 #45-67\",\n    \"ciudad\": \"Bogotá\",\n    \"notas\": \"Cliente frecuente\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{url_base}}/clientes",
+              "host": ["{{url_base}}"],
+              "path": ["clientes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clientes/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  pm.test(\"Status 200 OK\", () => pm.response.to.have.status(200));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"telefono matches request\", () => pm.expect(pm.response.json().telefono).to.eql(JSON.parse(pm.request.body.raw).telefono));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "} else if (pm.response.code === 400) {",
+                  "  pm.test(\"Status 400 Bad Request (validación)\", () => pm.response.to.have.status(400));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"María García\",\n    \"email\": \"maria@example.com\",\n    \"telefono\": \"3009876543\",\n    \"direccion\": \"Carrera 10 #20-30\",\n    \"ciudad\": \"Medellín\",\n    \"notas\": \"Actualización de datos\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{url_base}}/clientes/1",
+              "host": ["{{url_base}}"],
+              "path": ["clientes", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clientes/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 204) {",
+                  "  pm.test(\"Status 204 No Content\", () => pm.response.to.have.status(204));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "} else if (pm.response.code === 409) {",
+                  "  pm.test(\"Status 409 Conflict (registro con dependencias)\", () => pm.response.to.have.status(409));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/clientes/1",
+              "host": ["{{url_base}}"],
+              "path": ["clientes", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "servicios",
+      "item": [
+        {
+          "name": "servicios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/servicios",
+              "host": ["{{url_base}}"],
+              "path": ["servicios"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "servicios/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"Response has nombre\", () => pm.expect(pm.response.json()).to.have.property(\"nombre\"));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/servicios/1",
+              "host": ["{{url_base}}"],
+              "path": ["servicios", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "servicios",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.test(\"Status 201 Created\", () => pm.response.to.have.status(201));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"nombre matches request\", () => pm.expect(pm.response.json().nombre).to.eql(JSON.parse(pm.request.body.raw).nombre));",
+                  "} else if (pm.response.code === 400) {",
+                  "  pm.test(\"Status 400 Bad Request (validación)\", () => pm.response.to.have.status(400));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Corte de cabello\",\n    \"descripcion\": \"Corte clásico para caballero\",\n    \"precio\": 25000,\n    \"duracionMinutos\": 30,\n    \"activo\": true\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{url_base}}/servicios",
+              "host": ["{{url_base}}"],
+              "path": ["servicios"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "servicios/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  pm.test(\"Status 200 OK\", () => pm.response.to.have.status(200));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"nombre matches request\", () => pm.expect(pm.response.json().nombre).to.eql(JSON.parse(pm.request.body.raw).nombre));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "} else if (pm.response.code === 400) {",
+                  "  pm.test(\"Status 400 Bad Request (validación)\", () => pm.response.to.have.status(400));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Corte de cabello premium\",\n    \"descripcion\": \"Corte clásico con lavado incluido\",\n    \"precio\": 35000,\n    \"duracionMinutos\": 45,\n    \"activo\": true\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{url_base}}/servicios/1",
+              "host": ["{{url_base}}"],
+              "path": ["servicios", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "servicios/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 204) {",
+                  "  pm.test(\"Status 204 No Content\", () => pm.response.to.have.status(204));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "} else if (pm.response.code === 409) {",
+                  "  pm.test(\"Status 409 Conflict (registro con dependencias)\", () => pm.response.to.have.status(409));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/servicios/1",
+              "host": ["{{url_base}}"],
+              "path": ["servicios", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "citas",
+      "item": [
+        {
+          "name": "citas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Response is array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/citas",
+              "host": ["{{url_base}}"],
+              "path": ["citas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "citas/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"Response has fechaHora\", () => pm.expect(pm.response.json()).to.have.property(\"fechaHora\"));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/citas/1",
+              "host": ["{{url_base}}"],
+              "path": ["citas", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "citas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  pm.test(\"Status 201 Created\", () => pm.response.to.have.status(201));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"Response has cliente\", () => pm.expect(pm.response.json()).to.have.property(\"cliente\"));",
+                  "  pm.test(\"Response has servicio\", () => pm.expect(pm.response.json()).to.have.property(\"servicio\"));",
+                  "} else if (pm.response.code === 400) {",
+                  "  pm.test(\"Status 400 Bad Request (validación/único/servicio inactivo)\", () => pm.response.to.have.status(400));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found (cliente/servicio no encontrado)\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"clienteId\": 2,\r\n    \"servicioId\": 2,\r\n    \"fechaHora\": \"2024-04-25T14:30:01\",\r\n    \"estado\": \"pendiente\",\r\n    \"notas\": \"Primera cita\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_base}}/citas",
+              "host": ["{{url_base}}"],
+              "path": ["citas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "citas/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  pm.test(\"Status 200 OK\", () => pm.response.to.have.status(200));",
+                  "  pm.test(\"Response has id\", () => pm.expect(pm.response.json()).to.have.property(\"id\"));",
+                  "  pm.test(\"Response has cliente\", () => pm.expect(pm.response.json()).to.have.property(\"cliente\"));",
+                  "  pm.test(\"Response has servicio\", () => pm.expect(pm.response.json()).to.have.property(\"servicio\"));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "} else if (pm.response.code === 400) {",
+                  "  pm.test(\"Status 400 Bad Request (validación/único/servicio inactivo)\", () => pm.response.to.have.status(400));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"clienteId\": 2,\r\n    \"servicioId\": 2,\r\n    \"fechaHora\": \"2024-04-25T14:30:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_base}}/citas/2",
+              "host": ["{{url_base}}"],
+              "path": ["citas", "2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "citas/{id}",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 204) {",
+                  "  pm.test(\"Status 204 No Content\", () => pm.response.to.have.status(204));",
+                  "} else if (pm.response.code === 404) {",
+                  "  pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));",
+                  "  pm.test(\"Response has error message\", () => pm.expect(pm.response.json()).to.have.property(\"message\"));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_base}}/citas/2",
+              "host": ["{{url_base}}"],
+              "path": ["citas", "2"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url_base",
+      "value": "localhost:8080"
+    }
+  ]
+}

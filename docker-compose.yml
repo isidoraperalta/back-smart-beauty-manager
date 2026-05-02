@@ -1,0 +1,39 @@
+services:
+
+  # ── Base de datos ────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: db_smart_beauty_manager
+    environment:
+      POSTGRES_USER:     postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB:       db_smart_beauty_manager
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d  # ejecuta los scripts SQL al iniciar por primera vez
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Backend Spring Boot ──────────────────────────────────────────────────────
+  backend:
+    build: .
+    container_name: back_smart_beauty_manager
+    ports:
+      - "8080:8080"
+    environment:
+      # Dentro de Docker la BD se alcanza por nombre de servicio, no por "localhost"
+      SPRING_DATASOURCE_URL:      jdbc:postgresql://postgres:5432/db_smart_beauty_manager
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy  # espera a que postgres esté listo antes de arrancar
+
+volumes:
+  postgres_data:
+    driver: local
