@@ -4,7 +4,7 @@
 
 | Herramienta | Versión mínima | Notas |
 |-------------|---------------|-------|
-| **☕ Java**    | 21            | Si es que se levanta sin docker |
+| **☕ Java**    | 21            | [java](https://jdk.java.net/archive/) - si es que se levanta sin docker |
 | **🐳 Docker**  | cualquiera    | [docker.com](https://www.docker.com/products/docker-desktop)  — solo para la opción Docker  |
 
 ---
