@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServicioResponseDTO {
+public class TipoResponseDTO {
     private Long id;
-    private TipoResponseDTO tipo;
-    private AccionResponseDTO accion;
-    private Long precio;
-    private Integer duracionMinutos;
+    private CategoriaResponseDTO categoria;
+    private String nombre;
+    private String descripcion;
+    private Boolean activo;
 }

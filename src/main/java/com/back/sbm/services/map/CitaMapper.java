@@ -18,7 +18,7 @@ public class CitaMapper {
     public CitaResponseDTO toCitaResponseDTO(CitaEntity citaEntity) {
         return CitaResponseDTO.builder()
                 .id(citaEntity.getId())
-                .nombreCliente(citaEntity.getCliente().getNombre())
+                .cliente(clienteMapper.toClienteResponseDTO(citaEntity.getCliente()))
                 .servicio(servicioMapper.toServicioResponseDTO(citaEntity.getServicio()))
                 .fechaHora(citaEntity.getFechaHora())
                 .estado(citaEntity.getEstado())
@@ -37,4 +37,5 @@ public class CitaMapper {
                 .notas(citaRequestDTO.getNotas())
                 .build();
     }
+
 }

@@ -8,12 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "servicios")
+@Table(name = "tipos")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServicioEntity {
+public class TipoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,20 +21,15 @@ public class ServicioEntity {
 
     @NotNull
     @ManyToOne(optional = false)
-    @JoinColumn(name = "tipo_id", nullable = false)
-    private TipoEntity tipo;
-
-    @NotNull
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "accion_id", nullable = false)
-    private AccionEntity accion;
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private CategoriaEntity categoria;
 
     @NotNull
     @Column(nullable = false)
-    private Long precio;
+    private String nombre;
 
-    @NotNull
-    @Column(nullable = false)
-    private Integer duracionMinutos;
+    private String descripcion;
+
+    private Boolean activo = true;
 
 }

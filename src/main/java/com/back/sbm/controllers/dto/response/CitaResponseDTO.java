@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CitaResponseDTO {
     private Long id;
-    private String nombreCliente;
+    private ClienteResponseDTO cliente;
     private ServicioResponseDTO servicio;
     private LocalDateTime fechaHora;
     private String estado;

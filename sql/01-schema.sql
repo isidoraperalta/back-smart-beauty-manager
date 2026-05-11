@@ -13,14 +13,37 @@ CREATE TABLE IF NOT EXISTS clientes (
     notas TEXT
 );
 
--- Crear tabla servicios
-CREATE TABLE IF NOT EXISTS servicios (
+-- Crear tabla categorias
+CREATE TABLE IF NOT EXISTS categorias (
     id BIGSERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
+
+-- Crear tabla tipos
+CREATE TABLE IF NOT EXISTS tipos (
+    id BIGSERIAL PRIMARY KEY,
+    categoria_id BIGINT NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     descripcion TEXT,
-    precio NUMERIC(19,2) NOT NULL,
+    activo BOOLEAN DEFAULT true,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+);
+
+-- Crear tabla acciones
+CREATE TABLE IF NOT EXISTS acciones (
+    id BIGSERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
+
+-- Crear tabla servicios (intermedia: tipo + accion = servicio específico)
+CREATE TABLE IF NOT EXISTS servicios (
+    id BIGSERIAL PRIMARY KEY,
+    tipo_id BIGINT NOT NULL,
+    accion_id BIGINT NOT NULL,
+    precio BIGINT NOT NULL,
     duracion_minutos INTEGER NOT NULL,
-    activo BOOLEAN DEFAULT true
+    FOREIGN KEY (tipo_id) REFERENCES tipos(id),
+    FOREIGN KEY (accion_id) REFERENCES acciones(id)
 );
 
 -- Crear tabla citas

@@ -5,23 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServicioRequestDTO {
-    @NotNull(message = "El nombre del servicio es obligatorio")
-    private String nombre;
-    
-    private String descripcion;
-    
+
+    @NotNull(message = "El ID del tipo es obligatorio")
+    private Long tipoId;
+
+    @NotNull(message = "El ID de la acción es obligatorio")
+    private Long accionId;
+
     @NotNull(message = "El precio es obligatorio")
-    private BigDecimal precio;
-    
+    private Long precio;
+
     @NotNull(message = "La duración en minutos es obligatoria")
     private Integer duracionMinutos;
-    
-    private Boolean activo;
+
 }

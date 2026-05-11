@@ -2,30 +2,36 @@ package com.back.sbm.services.map;
 
 import com.back.sbm.controllers.dto.request.ServicioRequestDTO;
 import com.back.sbm.controllers.dto.response.ServicioResponseDTO;
+import com.back.sbm.model.entities.AccionEntity;
 import com.back.sbm.model.entities.ServicioEntity;
+import com.back.sbm.model.entities.TipoEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ServicioMapper {
+
+    private final TipoMapper tipoMapper;
+    private final AccionMapper accionMapper;
 
     public ServicioResponseDTO toServicioResponseDTO(ServicioEntity servicioEntity) {
         return ServicioResponseDTO.builder()
                 .id(servicioEntity.getId())
-                .nombre(servicioEntity.getNombre())
-                .descripcion(servicioEntity.getDescripcion())
+                .tipo(tipoMapper.toTipoResponseDTO(servicioEntity.getTipo()))
+                .accion(accionMapper.toAccionResponseDTO(servicioEntity.getAccion()))
                 .precio(servicioEntity.getPrecio())
                 .duracionMinutos(servicioEntity.getDuracionMinutos())
-                .activo(servicioEntity.getActivo())
                 .build();
     }
 
-    public ServicioEntity toServicioEntity(ServicioRequestDTO servicioRequestDTO) {
+    public ServicioEntity toServicioEntity(ServicioRequestDTO servicioRequestDTO, TipoEntity tipoEntity, AccionEntity accionEntity) {
         return ServicioEntity.builder()
-                .nombre(servicioRequestDTO.getNombre())
-                .descripcion(servicioRequestDTO.getDescripcion())
+                .tipo(tipoEntity)
+                .accion(accionEntity)
                 .precio(servicioRequestDTO.getPrecio())
                 .duracionMinutos(servicioRequestDTO.getDuracionMinutos())
-                .activo(servicioRequestDTO.getActivo())
                 .build();
     }
+
 }

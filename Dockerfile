@@ -7,11 +7,13 @@ WORKDIR /app
 # si el pom no cambia, Docker reutiliza la capa de dependencias descargadas.
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
-RUN ./mvnw dependency:go-offline -q
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw dependency:go-offline -q
 
 # Copiamos el código fuente y compilamos (sin ejecutar tests)
 COPY src ./src
-RUN ./mvnw package -DskipTests -q
+RUN --mount=type=cache,target=/root/.m2 \
+    ./mvnw package -DskipTests -q
 
 # ── Stage 2: ejecutar ─────────────────────────────────────────────────────────
 # Solo copiamos el .jar al entorno de ejecución (sin el JDK completo ni Maven)

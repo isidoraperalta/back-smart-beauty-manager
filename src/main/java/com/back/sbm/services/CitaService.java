@@ -36,11 +36,11 @@ public class CitaService {
         if (citaRepository.existsByFechaHora(citaRequestDTO.getFechaHora())) {
             throw new IllegalArgumentException("Ya existe una cita programada para la fecha y hora: " + citaRequestDTO.getFechaHora());
         }
-        
+
         ClienteEntity cliente = getClienteOrThrow(citaRequestDTO.getClienteId());
         ServicioEntity servicio = getServicioOrThrow(citaRequestDTO.getServicioId());
         CitaEntity citaEntity = citaMapper.toCitaEntity(citaRequestDTO, cliente, servicio);
-        
+
         return citaMapper.toCitaResponseDTO(citaRepository.save(citaEntity));
     }
 
@@ -48,13 +48,13 @@ public class CitaService {
         findById(id);
         if (citaRepository.existsByFechaHoraAndIdNot(citaRequestDTO.getFechaHora(), id)) {
             throw new IllegalArgumentException("Ya existe una cita programada para la fecha y hora: " + citaRequestDTO.getFechaHora());
-        }   
+        }
 
         ClienteEntity cliente = getClienteOrThrow(citaRequestDTO.getClienteId());
         ServicioEntity servicio = getServicioOrThrow(citaRequestDTO.getServicioId());
         CitaEntity citaEntity = citaMapper.toCitaEntity(citaRequestDTO, cliente, servicio);
         citaEntity.setId(id);
-        
+
         return citaMapper.toCitaResponseDTO(citaRepository.save(citaEntity));
     }
 
@@ -63,22 +63,12 @@ public class CitaService {
         citaRepository.deleteById(id);
     }
 
-    /**
-     * Obtiene un cliente por ID, lanzando excepción si no existe.
-     */
     private ClienteEntity getClienteOrThrow(Long clienteId) {
         return clienteRepository.findById(clienteId).orElseThrow(() -> new NoSuchElementException("Cliente no encontrado: " + clienteId));
     }
 
-    /**
-     * Obtiene un servicio por ID, lanzando excepción si no existe o si está inactivo.
-     */
     private ServicioEntity getServicioOrThrow(Long servicioId) {
-        ServicioEntity servicioEntity = servicioRepository.findById(servicioId).orElseThrow(() -> new NoSuchElementException("Servicio no encontrado: " + servicioId));
-        if (Boolean.FALSE.equals(servicioEntity.getActivo())) {
-            throw new IllegalArgumentException("El servicio no está disponible: " + servicioId);
-        }
-        return servicioEntity;
+        return servicioRepository.findById(servicioId).orElseThrow(() -> new NoSuchElementException("Servicio no encontrado: " + servicioId));
     }
 
 }

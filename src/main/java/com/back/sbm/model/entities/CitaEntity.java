@@ -40,6 +40,5 @@ public class CitaEntity {
 
     private Long descuento;
     
-    @Column
     private String notas;
 }

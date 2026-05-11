@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServicioResponseDTO {
+public class CategoriaResponseDTO {
     private Long id;
-    private TipoResponseDTO tipo;
-    private AccionResponseDTO accion;
-    private Long precio;
-    private Integer duracionMinutos;
+    private String nombre;
 }

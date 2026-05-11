@@ -40,48 +40,87 @@ VALUES
 ('Julieta Acuña', 'julieta.a@example.com', '555-0032', 'Plaza Histórica 1717', 'Soria', 'Regular'),
 ('Konstantin Romero', 'konstantin.r@example.com', '555-0033', 'Calle Vieja 1818', 'Teruel', 'Cliente nuevo');
 
--- Insertar datos de ejemplo de servicios
-INSERT INTO servicios (nombre, descripcion, precio, duracion_minutos, activo) 
+-- Insertar datos de ejemplo de categorias
+INSERT INTO categorias (nombre)
 VALUES 
-('Corte de Cabello', 'Corte y estilo personalizado', 25.00, 45, true),
-('Tratamiento Facial', 'Limpieza profunda y revitalización', 45.00, 60, true),
-('Masaje Relajante', 'Masaje de cuerpo completo relajante', 60.00, 90, true),
-('Tinte de Cabello', 'Tinte y matización del color', 35.00, 60, true),
-('Depilación', 'Depilación en zonas diversas', 20.00, 30, true);
+('Pestañas'),
+('Uñas'),
+('Masaje Facial');
+
+-- Insertar datos de ejemplo de tipos
+INSERT INTO tipos (categoria_id, nombre, descripcion, activo)
+VALUES 
+-- Categoría Pestañas (1)
+(1, 'Pestañas Naturales', 'Extensión de pestañas volumen natural', true),
+(1, 'Volumen Ruso', 'Extensión de pestañas volumen ruso', true),
+-- Categoría Uñas (2)
+(2, 'Uñas de Gel', 'Manicura con uñas de gel', true),
+(2, 'Uñas Acrílicas', 'Manicura con uñas acrílicas', true),
+-- Categoría Masaje Facial (3)
+(3, 'Masaje Relajante', 'Masaje facial relajante y descontraete', true),
+(3, 'Masaje Profundo', 'Masaje facial profundo y revitalizante', true);
+
+-- Insertar datos de ejemplo de acciones
+INSERT INTO acciones (nombre)
+VALUES 
+('Poner'),
+('Retocar'),
+('Retirar'),
+('Otro'),
+('No aplica');
+
+-- Insertar datos de ejemplo de servicios (intermedia: tipo + accion)
+INSERT INTO servicios (tipo_id, accion_id, precio, duracion_minutos)
+VALUES 
+-- Pestañas Naturales (tipo_id=1)
+(1, 1, 50000, 60),
+(1, 2, 25000, 30),
+(1, 3, 15000, 20),
+-- Volumen Ruso (tipo_id=2)
+(2, 1, 65000, 75),
+(2, 2, 30000, 35),
+(2, 3, 15000, 20),
+-- Uñas de Gel (tipo_id=3)
+(3, 1, 40000, 45),
+(3, 2, 20000, 25),
+(3, 3, 15000, 20),
+-- Uñas Acrílicas (tipo_id=4)
+(4, 1, 45000, 50),
+(4, 2, 22000, 28),
+(4, 3, 15000, 20),
+-- Masaje Relajante (tipo_id=5)
+(5, 5, 60000, 60),
+(5, 5, 30000, 30),
+-- Masaje Profundo (tipo_id=6)
+(6, 5, 75000, 75),
+(6, 5, 35000, 40);
 
 -- Insertar datos de ejemplo de citas
 INSERT INTO citas (cliente_id, servicio_id, fecha_hora, estado, descuento, notas) 
 VALUES 
-(1, 1, '2026-04-25 10:00:00', 'confirmada', 5000, 'Corte regular'),
-(2, 2, '2026-04-25 14:30:00', 'confirmada', 0, 'Primera cita'),
-(3, 3, '2026-04-26 15:00:00', 'pendiente', 0, 'Requiere confirmación'),
-(4, 4, '2026-04-26 09:30:00', 'confirmada', 0, 'Tinte refrescante'),
-(5, 5, '2026-04-26 11:00:00', 'confirmada', 5000, 'Depilación piernas'),
-(6, 1, '2026-04-27 10:30:00', 'confirmada', 0, 'Corte y peinado'),
-(7, 2, '2026-04-27 13:00:00', 'pendiente', 0, 'Tratamiento facial'),
-(8, 3, '2026-04-27 16:00:00', 'confirmada', 10000, 'Masaje relajante'),
-(9, 4, '2026-04-28 09:00:00', 'confirmada', 0, 'Tinte y mechas'),
-(10, 5, '2026-04-28 11:30:00', 'confirmada', 5000, 'Depilación axilas'),
-(11, 1, '2026-04-28 14:00:00', 'pendiente', 0, 'Corte desvanecido'),
-(12, 2, '2026-04-29 10:00:00', 'confirmada', 0, 'Limpieza profunda'),
-(13, 3, '2026-04-29 15:30:00', 'confirmada', 10000, 'Masaje espalda'),
-(14, 4, '2026-04-29 12:00:00', 'confirmada', 5000, 'Tinte castaño'),
-(15, 5, '2026-04-30 09:30:00', 'confirmada', 0, 'Depilación bikini'),
-(16, 1, '2026-04-30 13:00:00', 'pendiente', 0, 'Corte moderno'),
-(17, 2, '2026-04-30 15:00:00', 'confirmada', 0, 'Revitalización facial'),
-(18, 3, '2026-05-01 10:00:00', 'confirmada', 10000, 'Masaje completo'),
-(19, 4, '2026-05-01 12:30:00', 'confirmada', 5000, 'Tinte oscuro'),
-(20, 5, '2026-05-01 14:00:00', 'confirmada', 0, 'Depilación brazos'),
-(21, 1, '2026-05-02 09:00:00', 'confirmada', 0, 'Corte clásico'),
-(22, 2, '2026-05-02 11:00:00', 'pendiente', 0, 'Tratamiento completo'),
-(23, 3, '2026-05-02 16:00:00', 'confirmada', 10000, 'Masaje terapéutico'),
-(24, 4, '2026-05-02 13:30:00', 'confirmada', 5000, 'Tinte y alisado'),
-(25, 5, '2026-05-03 10:30:00', 'confirmada', 0, 'Depilación total'),
-(26, 1, '2026-05-03 12:00:00', 'confirmada', 0, 'Corte y tinte'),
-(27, 2, '2026-05-03 14:30:00', 'confirmada', 0, 'Facial con masaje'),
-(28, 3, '2026-05-04 11:00:00', 'pendiente', 10000, 'Masaje relajante'),
-(29, 4, '2026-05-04 15:00:00', 'confirmada', 5000, 'Tinte y peinado'),
-(30, 5, '2026-05-04 09:00:00', 'confirmada', 0, 'Depilación piernas'),
-(31, 1, '2026-05-05 10:30:00', 'confirmada', 0, 'Corte desvanecido'),
-(32, 2, '2026-05-05 13:00:00', 'confirmada', 0, 'Limpieza facial'),
-(33, 3, '2026-05-05 15:30:00', 'confirmada', 10000, 'Masaje completo');
+-- Pestañas Naturales
+(1, 1, '2026-05-10 10:00:00', 'confirmada', 0, 'Seda sintética. Alérgica a pegamentos a base de formol'),
+(2, 2, '2026-05-10 14:30:00', 'confirmada', 0, 'Cliente prefiere extensiones más densas'),
+(3, 3, '2026-05-11 15:00:00', 'pendiente', 0, 'Llegar 5 min antes. Ojo derecho sensible'),
+-- Volumen Ruso
+(4, 4, '2026-05-11 09:30:00', 'confirmada', 0, 'Primer servicio. Consultar densidad preferida'),
+(5, 5, '2026-05-11 11:00:00', 'confirmada', 5000, 'Aficionada a volumen extremo. Oferta especial'),
+(6, 6, '2026-05-12 10:30:00', 'confirmada', 0, 'Servicio rápido. Cliente con prisa'),
+-- Uñas de Gel
+(7, 7, '2026-05-12 13:00:00', 'pendiente', 0, 'Color neutro. Uñas frágiles naturalmente'),
+(8, 8, '2026-05-12 16:00:00', 'confirmada', 10000, 'Clienta VIP. Descuento aplicado'),
+(9, 9, '2026-05-13 09:00:00', 'confirmada', 0, 'Paciencia con puntas delicadas al retirar'),
+-- Uñas Acrílicas
+(10, 10, '2026-05-13 11:30:00', 'confirmada', 5000, 'Primer servicio. Color gradiente'),
+(11, 11, '2026-05-13 14:00:00', 'pendiente', 0, 'Clienta regular. Mismo diseño que última vez'),
+(12, 12, '2026-05-14 10:00:00', 'confirmada', 0, 'Cuidado con superficie delgada'),
+-- Masaje Relajante
+(13, 13, '2026-05-14 15:30:00', 'confirmada', 10000, 'Tensión en cervicales. Presión media-fuerte'),
+(14, 14, '2026-05-14 12:00:00', 'confirmada', 5000, 'Cliente regular. Aroma de lavanda'),
+-- Masaje Profundo
+(15, 15, '2026-05-15 09:30:00', 'confirmada', 0, 'Contracturas en espalda. Masaje terapéutico'),
+(16, 16, '2026-05-15 13:00:00', 'pendiente', 0, 'Sin aceites. Reacción alérgica previa'),
+(17, 14, '2026-05-15 15:00:00', 'confirmada', 0, 'Cliente migrañosa. Enfoque en sienes'),
+(18, 13, '2026-05-16 10:00:00', 'confirmada', 10000, 'Estrés laboral. Sesión completa relajante'),
+(19, 11, '2026-05-16 12:30:00', 'confirmada', 5000, 'Cliente VIP con descuento'),
+(20, 2, '2026-05-16 14:00:00', 'confirmada', 0, 'Cliente habitual. Extensiones sofisticadas');
