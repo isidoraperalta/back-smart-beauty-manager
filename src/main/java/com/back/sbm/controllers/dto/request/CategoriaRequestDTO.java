@@ -1,6 +1,6 @@
 package com.back.sbm.controllers.dto.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoriaRequestDTO {
 
-    @NotNull(message = "El nombre de la categoria es obligatorio")
+    @NotBlank(message = "El nombre de la categoria es obligatorio")
     private String nombre;
 
 }

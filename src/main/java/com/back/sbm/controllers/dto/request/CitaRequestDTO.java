@@ -1,5 +1,6 @@
 package com.back.sbm.controllers.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,7 @@ public class CitaRequestDTO {
     @NotNull(message = "La fecha y hora son obligatorias")
     private LocalDateTime fechaHora;
     
-    @NotNull(message = "El estado es obligatorio")
+    @NotBlank(message = "El estado es obligatorio")
     private String estado;
 
     private Long descuento;
