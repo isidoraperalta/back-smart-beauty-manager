@@ -5,7 +5,53 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "24972309"
   },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
   "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('token', json.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{url_base}}/auth/login",
+              "host": ["{{url_base}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
     {
       "name": "clientes",
       "item": [
@@ -42,7 +88,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"nombre\": \"Ana López\",\n    \"email\": \"ana.lopez@email.com\",\n    \"telefono\": \"3001234567\",\n    \"direccion\": \"Calle 123 #45-67\",\n    \"ciudad\": \"Bogotá\",\n    \"notas\": \"Cliente frecuente\"\n}",
+              "raw": "{\n    \"nombre\": \"Ana López\",\n    \"email\": \"ana.lopez@email.com\",\n    \"telefono\": \"3001234567\",\n    \"direccion\": \"Calle 123 #45-67\",\n    \"fechaNacimiento\": \"1985-03-20\",\n    \"notas\": \"Cliente frecuente\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -60,7 +106,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"nombre\": \"María García\",\n    \"email\": \"maria@example.com\",\n    \"telefono\": \"3009876543\",\n    \"direccion\": \"Carrera 10 #20-30\",\n    \"ciudad\": \"Medellín\",\n    \"notas\": \"Actualización de datos\"\n}",
+              "raw": "{\n    \"nombre\": \"María García\",\n    \"email\": \"maria@example.com\",\n    \"telefono\": \"3009876543\",\n    \"direccion\": \"Carrera 10 #20-30\",\n    \"fechaNacimiento\": \"1988-07-10\",\n    \"notas\": \"Actualización de datos\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -362,7 +408,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"tipoId\": 1,\n    \"accionId\": 1,\n    \"precio\": 25000,\n    \"duracionMinutos\": 30\n}",
+              "raw": "{\n    \"tipoId\": 1,\n    \"accionId\": 1,\n    \"precio\": 25000,\n    \"duracionMinutos\": 30,\n    \"diasParaRetocar\": 21\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -380,7 +426,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"tipoId\": 1,\n    \"accionId\": 1,\n    \"precio\": 35000,\n    \"duracionMinutos\": 45\n}",
+              "raw": "{\n    \"tipoId\": 1,\n    \"accionId\": 1,\n    \"precio\": 35000,\n    \"duracionMinutos\": 45,\n    \"diasParaRetocar\": 21\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -442,7 +488,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"clienteId\": 2,\n    \"servicioId\": 2,\n    \"fechaHora\": \"2024-04-25T14:30:01\",\n    \"estado\": \"pendiente\",\n    \"notas\": \"Primera cita\"\n}",
+              "raw": "{\n    \"clienteId\": 2,\n    \"servicioId\": 2,\n    \"fechaHora\": \"2024-04-25T14:30:01\",\n    \"estado\": \"AGENDADA\",\n    \"lugar\": \"LOCAL\",\n    \"descuento\": 0,\n    \"cargoExtra\": null,\n    \"notas\": \"Primera cita\"\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -460,7 +506,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"clienteId\": 2,\n    \"servicioId\": 2,\n    \"fechaHora\": \"2024-04-25T14:30:00\",\n    \"estado\": \"confirmada\"\n}",
+              "raw": "{\n    \"clienteId\": 2,\n    \"servicioId\": 2,\n    \"fechaHora\": \"2024-04-25T14:30:00\",\n    \"estado\": \"CONFIRMADA\",\n    \"lugar\": \"DOMICILIO\",\n    \"descuento\": 0,\n    \"cargoExtra\": null\n}",
               "options": { "raw": { "language": "json" } }
             },
             "url": {
@@ -491,6 +537,10 @@
     {
       "key": "url_base",
       "value": "localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
     }
   ]
 }

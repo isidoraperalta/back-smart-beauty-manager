@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
+import com.back.sbm.enums.EstadoCita;
+import com.back.sbm.enums.LugarCita;
+
 @Entity
 @Table(name = "citas")
 @Data
@@ -34,11 +37,29 @@ public class CitaEntity {
     @Column(nullable = false, unique = true)
     private LocalDateTime fechaHora;
     
-    @NotNull
-    @Column(nullable = false)
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private EstadoCita estado;
+
+    @Enumerated(EnumType.STRING)
+    private LugarCita lugar;
 
     private Long descuento;
+
+    private Long cargoExtra;
+
+    private Long valorTotal;
+
+    private Integer diasParaRetocar;
     
     private String notas;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.estado == null) {
+            this.estado = EstadoCita.AGENDADA;
+        }
+        if (this.lugar == null) {
+            this.lugar = LugarCita.LOCAL;
+        }
+    }
 }

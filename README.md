@@ -1,4 +1,4 @@
-# 💇 Back Smart Beauty Manager
+# 🌸 Back Smart Beauty Manager
 
 ## 📋 Requisitos por opción de ejecución
 
@@ -12,7 +12,7 @@
 
 ---
 
-## 🚀 Cómo ejecutar el backend
+## 🚀 Cómo ejecutar
 
 ### 🖥️ Opción 1: Local (Back y BD en local)
 
@@ -97,6 +97,7 @@ docker compose down -v            # ⛔ Parar y limpiar base de datos
 ├── src/
 │   ├── main/
 │   │   ├── java/com/back/sbm/
+│   │   │   ├── BackSmartBeautyManagerApplication.java        # Clase principal de la aplicación
 │   │   │   ├── model/
 │   │   │   │   ├── entities/                                 # Entidades JPA (Cliente, Servicio, Cita)
 │   │   │   │   └── repositories/                             # Interfaces Spring Data JPA
@@ -104,6 +105,8 @@ docker compose down -v            # ⛔ Parar y limpiar base de datos
 │   │   │   │   └── map/                                      # Mappers para transformación de DTOs
 │   │   │   ├── controllers/                                  # Endpoints REST
 │   │   │   │   └── dto/                                      # Objetos de transferencia de datos
+│   │   │   ├── security/                                     # Configuración de seguridad y autenticación
+│   │   │   ├── enums/                                        # Enumeraciones (estados, tipos, etc.)
 │   │   │   └── exception/                                    # Manejador global de excepciones
 │   │   └── resources/
 │   │       └── application.yml                               # Configuración de Spring
@@ -115,7 +118,27 @@ docker compose down -v            # ⛔ Parar y limpiar base de datos
 ```
 ---
 
+## 📚 Librerías
+
+| Librería | Versión | Descripción |
+|----------|---------|-------------|
+| **Spring Boot** | 4.0.6 | Framework principal para la aplicación |
+| **Spring Data JPA** | - | ORM para acceso a datos y persistencia |
+| **Spring Web** | - | Framework REST con Tomcat embebido |
+| **Spring Validation** | - | Validación de datos con anotaciones |
+| **Spring Security** | - | Autenticación y autorización |
+| **Jackson** | - | Serialización/Deserialización JSON |
+| **JJWT** | 0.12.6 | Generación y validación de tokens JWT |
+| **PostgreSQL Driver** | - | Driver para conexión a PostgreSQL |
+| **Lombok** | - | Generación de getters/setters/constructores |
+| **Java** | 21 | Lenguaje de programación |
+
+---
+
 ## 🔌 Endpoints API
+
+### 🔒 Auth
+- **POST** `/auth/login` - Obtener token JWT
 
 ### 👥 Clientes
 - **GET** `/clientes` - Obtener todos los clientes
@@ -155,7 +178,7 @@ docker compose down -v            # ⛔ Parar y limpiar base de datos
 ### 📅 Citas
 - **GET** `/citas` - Obtener todas las citas
 - **GET** `/citas/{id}` - Obtener una cita por ID
-- **POST** `/citas` - Crear una cita (requiere `clienteId` y `servicioId`)
+- **POST** `/citas` - Crear una cita (requiere `clienteId`, `servicioId`)
 - **PUT** `/citas/{id}` - Actualizar una cita
 - **DELETE** `/citas/{id}` - Eliminar una cita
 
@@ -166,14 +189,15 @@ docker compose down -v            # ⛔ Parar y limpiar base de datos
 La colección de Postman está en `docs/back-smart-beauty-manager.postman_collection.json`
 
 **Características:**
-- 📌 30 requests: 5 (CRUD) por cada uno de los 6 recursos
-- 🔌 Variable de entorno: `url_base` (por defecto: `localhost:8080`)
+- 📌 31 requests: 1 de auth + 5 (CRUD) por cada uno de los 6 recursos
+- 🔌 Variables de colección: `url_base` (por defecto: `localhost:8080`), `token` (se llena automáticamente al hacer login)
+- 🔐 Auth a nivel de colección: Bearer `{{token}}`
 
 **Para importar:**
 1. Abre Postman
 2. Click en "Import" → selecciona `back-smart-beauty-manager.postman_collection.json`
-3. Verifica que la variable `url_base` esté configurada correctamente
-4. ¡Comienza a realizar peticiones! 🚀
+3. Ejecuta **Auth → Login** primero: el token se guarda automáticamente
+4. ¡Todos los demás endpoints ya autenticados! 🚀
 
 ---
 
@@ -182,11 +206,17 @@ La colección de Postman está en `docs/back-smart-beauty-manager.postman_collec
 ### Diagrama de relaciones:
 ```mermaid
 erDiagram
-    CATEGORIAS ||--o{ TIPOS : agrupa
-    TIPOS ||--o{ SERVICIOS : ofrece
-    ACCIONES ||--o{ SERVICIOS : compone
-    SERVICIOS ||--o{ CITAS : se_reserva
-    CLIENTES ||--o{ CITAS : solicita
+    CATEGORIAS ||--o{ TIPOS : ""
+    TIPOS ||--o{ SERVICIOS : ""
+    ACCIONES ||--o{ SERVICIOS : ""
+    SERVICIOS ||--o{ CITAS : ""
+    CLIENTES ||--o{ CITAS : ""
+
+    USUARIOS {
+        id BIGSERIAL PK "NOT NULL"
+        username VARCHAR "NOT NULL, UNIQUE"
+        password VARCHAR "NOT NULL"
+    }
 
     CATEGORIAS {
         id BIGSERIAL PK "NOT NULL"
@@ -212,6 +242,7 @@ erDiagram
         accion_id BIGINT FK "NOT NULL"
         precio BIGINT "NOT NULL"
         duracion_minutos INTEGER "NOT NULL"
+        dias_para_retocar INTEGER
     }
     
     CLIENTES {
@@ -220,7 +251,7 @@ erDiagram
         email VARCHAR "NOT NULL, UNIQUE"
         telefono VARCHAR "NOT NULL"
         direccion VARCHAR
-        ciudad VARCHAR
+        fecha_nacimiento DATE
         notas TEXT
     }
     
@@ -229,8 +260,12 @@ erDiagram
         cliente_id BIGINT FK "NOT NULL"
         servicio_id BIGINT FK "NOT NULL"
         fecha_hora TIMESTAMP "NOT NULL, UNIQUE"
-        estado VARCHAR "NOT NULL"
+        estado VARCHAR "AGENDADA|CONFIRMADA|CANCELADA|REALIZADA"
+        lugar VARCHAR "LOCAL|DOMICILIO"
         descuento BIGINT
+        cargo_extra BIGINT
+        valor_total BIGINT
+        dias_para_retocar INTEGER
         notas TEXT
     }
 ```
@@ -238,6 +273,7 @@ erDiagram
 ## Tablas:
 | Tabla | Descripción |
 |-------|-------------|
+| `usuarios` | Credenciales de acceso |
 | `clientes` | Información de clientes |
 | `categorias` | Categorías de servicios |
 | `tipos` | Tipos dentro de una categoría |

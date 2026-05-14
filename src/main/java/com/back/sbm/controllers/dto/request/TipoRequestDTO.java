@@ -21,6 +21,6 @@ public class TipoRequestDTO {
     
     private String descripcion;
 
-    private Boolean activo = true;
+    private Boolean activo;
 
 }

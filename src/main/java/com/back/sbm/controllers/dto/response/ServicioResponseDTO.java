@@ -15,4 +15,5 @@ public class ServicioResponseDTO {
     private AccionResponseDTO accion;
     private Long precio;
     private Integer duracionMinutos;
+    private Integer diasParaRetocar;
 }

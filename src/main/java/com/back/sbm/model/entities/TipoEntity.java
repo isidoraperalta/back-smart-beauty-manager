@@ -30,6 +30,13 @@ public class TipoEntity {
 
     private String descripcion;
 
-    private Boolean activo = true;
+    private Boolean activo;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.activo == null) {
+            this.activo = true;
+        }
+    }
 
 }

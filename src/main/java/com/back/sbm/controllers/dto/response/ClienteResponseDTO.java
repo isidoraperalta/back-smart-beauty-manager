@@ -1,5 +1,7 @@
 package com.back.sbm.controllers.dto.response;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +17,6 @@ public class ClienteResponseDTO {
     private String email;
     private String telefono;
     private String direccion;
-    private String ciudad;
+    private LocalDate fechaNacimiento;
     private String notas;
 }

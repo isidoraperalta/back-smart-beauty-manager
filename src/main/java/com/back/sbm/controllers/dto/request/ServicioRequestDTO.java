@@ -24,4 +24,6 @@ public class ServicioRequestDTO {
     @NotNull(message = "La duración en minutos es obligatoria")
     private Integer duracionMinutos;
 
+    private Integer diasParaRetocar;
+
 }

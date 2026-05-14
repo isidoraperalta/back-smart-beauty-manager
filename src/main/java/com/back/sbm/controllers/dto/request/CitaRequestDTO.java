@@ -1,12 +1,14 @@
 package com.back.sbm.controllers.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+
+import com.back.sbm.enums.EstadoCita;
+import com.back.sbm.enums.LugarCita;
 
 @Data
 @Builder
@@ -22,10 +24,15 @@ public class CitaRequestDTO {
     @NotNull(message = "La fecha y hora son obligatorias")
     private LocalDateTime fechaHora;
     
-    @NotBlank(message = "El estado es obligatorio")
-    private String estado;
+    private EstadoCita estado;
+
+    private LugarCita lugar;
 
     private Long descuento;
+
+    private Long cargoExtra;
+
+    private Integer diasParaRetocar;
     
     private String notas;
 }

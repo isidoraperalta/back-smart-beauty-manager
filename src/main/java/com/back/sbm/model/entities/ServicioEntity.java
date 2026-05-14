@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "servicios")
+@Table(name = "servicios", uniqueConstraints = {
+        @UniqueConstraint(name = "uq_servicios_tipo_accion", columnNames = {"tipo_id", "accion_id"})
+})
 @Data
 @Builder
 @NoArgsConstructor
@@ -36,5 +38,7 @@ public class ServicioEntity {
     @NotNull
     @Column(nullable = false)
     private Integer duracionMinutos;
+
+    private Integer diasParaRetocar;
 
 }

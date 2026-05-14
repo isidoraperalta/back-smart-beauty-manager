@@ -15,7 +15,7 @@ public class ClienteMapper {
                 .email(clienteEntity.getEmail())
                 .telefono(clienteEntity.getTelefono())
                 .direccion(clienteEntity.getDireccion())
-                .ciudad(clienteEntity.getCiudad())
+                .fechaNacimiento(clienteEntity.getFechaNacimiento())
                 .notas(clienteEntity.getNotas())
                 .build();
     }
@@ -26,7 +26,7 @@ public class ClienteMapper {
                 .email(clienteRequestDTO.getEmail())
                 .telefono(clienteRequestDTO.getTelefono())
                 .direccion(clienteRequestDTO.getDireccion())
-                .ciudad(clienteRequestDTO.getCiudad())
+                .fechaNacimiento(clienteRequestDTO.getFechaNacimiento())
                 .notas(clienteRequestDTO.getNotas())
                 .build();
     }

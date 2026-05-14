@@ -22,6 +22,7 @@ public class ServicioMapper {
                 .accion(accionMapper.toAccionResponseDTO(servicioEntity.getAccion()))
                 .precio(servicioEntity.getPrecio())
                 .duracionMinutos(servicioEntity.getDuracionMinutos())
+                .diasParaRetocar(servicioEntity.getDiasParaRetocar())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class ServicioMapper {
                 .accion(accionEntity)
                 .precio(servicioRequestDTO.getPrecio())
                 .duracionMinutos(servicioRequestDTO.getDuracionMinutos())
+                .diasParaRetocar(servicioRequestDTO.getDiasParaRetocar())
                 .build();
     }
 

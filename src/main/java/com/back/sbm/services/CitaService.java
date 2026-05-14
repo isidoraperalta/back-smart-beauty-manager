@@ -12,6 +12,8 @@ import com.back.sbm.services.map.CitaMapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,28 +35,32 @@ public class CitaService {
     }
 
     public CitaResponseDTO save(CitaRequestDTO citaRequestDTO) {
-        if (citaRepository.existsByFechaHora(citaRequestDTO.getFechaHora())) {
-            throw new IllegalArgumentException("Ya existe una cita programada para la fecha y hora: " + citaRequestDTO.getFechaHora());
-        }
-
         ClienteEntity cliente = getClienteOrThrow(citaRequestDTO.getClienteId());
         ServicioEntity servicio = getServicioOrThrow(citaRequestDTO.getServicioId());
-        CitaEntity citaEntity = citaMapper.toCitaEntity(citaRequestDTO, cliente, servicio);
 
+        LocalDateTime inicio = citaRequestDTO.getFechaHora();
+        LocalDateTime fin = inicio.plusMinutes(servicio.getDuracionMinutos());
+        if (citaRepository.existsOverlapInBlock(inicio, fin, null)) {
+            throw new IllegalArgumentException("Ya existe otra cita en este bloque de horario");
+        }
+
+        CitaEntity citaEntity = citaMapper.toCitaEntity(citaRequestDTO, cliente, servicio);
         return citaMapper.toCitaResponseDTO(citaRepository.save(citaEntity));
     }
 
     public CitaResponseDTO updateById(Long id, CitaRequestDTO citaRequestDTO) {
         findById(id);
-        if (citaRepository.existsByFechaHoraAndIdNot(citaRequestDTO.getFechaHora(), id)) {
-            throw new IllegalArgumentException("Ya existe una cita programada para la fecha y hora: " + citaRequestDTO.getFechaHora());
-        }
-
         ClienteEntity cliente = getClienteOrThrow(citaRequestDTO.getClienteId());
         ServicioEntity servicio = getServicioOrThrow(citaRequestDTO.getServicioId());
+
+        LocalDateTime inicio = citaRequestDTO.getFechaHora();
+        LocalDateTime fin = inicio.plusMinutes(servicio.getDuracionMinutos());
+        if (citaRepository.existsOverlapInBlock(inicio, fin, id)) {
+            throw new IllegalArgumentException("Ya existe otra cita en este bloque de horario");
+        }
+
         CitaEntity citaEntity = citaMapper.toCitaEntity(citaRequestDTO, cliente, servicio);
         citaEntity.setId(id);
-
         return citaMapper.toCitaResponseDTO(citaRepository.save(citaEntity));
     }
 
