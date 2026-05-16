@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("citas")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class CitaController {
 
     private final CitaService citaService;

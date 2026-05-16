@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("tipos")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class TipoController {
 
     private final TipoService tipoService;
