@@ -40,5 +40,15 @@ public class ClienteEntity {
     private LocalDate fechaNacimiento;
 
     @Column
+    private LocalDate fechaRegistro;
+
+    @Column
     private String notas;
+
+    @PrePersist
+    protected void onCreate() {
+        if (fechaRegistro == null) {
+            fechaRegistro = LocalDate.now();
+        }
+    }
 }

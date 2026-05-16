@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS clientes (
     telefono VARCHAR(255) NOT NULL,
     direccion VARCHAR(255),
     fecha_nacimiento DATE,
+    fecha_registro DATE DEFAULT CURRENT_DATE NOT NULL,
     notas TEXT
 );
 

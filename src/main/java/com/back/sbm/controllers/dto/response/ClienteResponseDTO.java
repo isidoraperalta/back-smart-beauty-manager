@@ -18,5 +18,6 @@ public class ClienteResponseDTO {
     private String telefono;
     private String direccion;
     private LocalDate fechaNacimiento;
+    private LocalDate fechaRegistro;
     private String notas;
 }

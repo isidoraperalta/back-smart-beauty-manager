@@ -16,6 +16,7 @@ public class ClienteMapper {
                 .telefono(clienteEntity.getTelefono())
                 .direccion(clienteEntity.getDireccion())
                 .fechaNacimiento(clienteEntity.getFechaNacimiento())
+                .fechaRegistro(clienteEntity.getFechaRegistro())
                 .notas(clienteEntity.getNotas())
                 .build();
     }
